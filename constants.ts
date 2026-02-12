@@ -37,7 +37,17 @@ import {
   Chrome,
   Github,
   Figma,
-  Slack
+  Slack,
+  Search,
+  Download,
+  Bookmark,
+  Heart,
+  Share2,
+  Moon,
+  Sun,
+  Flame,
+  Target,
+  TrendingUp
 } from 'lucide-react';
 
 export const ICONS = {
@@ -78,7 +88,17 @@ export const ICONS = {
   Chrome,
   Github,
   Figma,
-  Slack
+  Slack,
+  Search,
+  Download,
+  Bookmark,
+  Heart,
+  Share2,
+  Moon,
+  Sun,
+  Flame,
+  Target,
+  TrendingUp
 };
 
 export const SAMPLE_PROMPTS = [
