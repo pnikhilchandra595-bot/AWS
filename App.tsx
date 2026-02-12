@@ -18,6 +18,7 @@ import AchievementNotification from './components/AchievementNotification';
 import VoiceInput from './components/VoiceInput';
 import HelpOverlay from './components/HelpOverlay';
 import ErrorBoundary from './components/ErrorBoundary';
+import OnboardingTutorial from './components/OnboardingTutorial';
 import { useTheme } from './hooks/useTheme';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useStreak } from './hooks/useStreak';
@@ -70,6 +71,7 @@ export default function App() {
   const [showCodePlayground, setShowCodePlayground] = useState(false);
   const [showMessageSearch, setShowMessageSearch] = useState(false);
   const [showHelpOverlay, setShowHelpOverlay] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const [bookmarkedMessages, setBookmarkedMessages] = useState<string[]>([]);
   const [currentAchievement, setCurrentAchievement] = useState<Achievement | null>(null);
 
@@ -104,6 +106,13 @@ export default function App() {
       // Load bookmarks
       const saved = localStorage.getItem(`devflow_bookmarks_${currentUser.id}`);
       if (saved) setBookmarkedMessages(JSON.parse(saved));
+      
+      // Check if tutorial should be shown
+      const tutorialCompleted = localStorage.getItem('devflow_tutorial_completed');
+      if (!tutorialCompleted) {
+        // Show tutorial after a short delay
+        setTimeout(() => setShowOnboarding(true), 1000);
+      }
     }
   }, []);
 
@@ -389,6 +398,12 @@ export default function App() {
         onClose={() => setShowHelpOverlay(false)}
       />
 
+      <OnboardingTutorial
+        isOpen={showOnboarding}
+        onComplete={() => setShowOnboarding(false)}
+        userName={user?.name || 'Developer'}
+      />
+
       <MessageSearch
         isOpen={showMessageSearch}
         onClose={() => setShowMessageSearch(false)}
@@ -488,6 +503,15 @@ export default function App() {
                     <span className="text-[9px] text-slate-400 font-mono">HELP</span>
                   </motion.button>
                 </div>
+
+                {/* Replay Tutorial Button */}
+                <button
+                  onClick={() => setShowOnboarding(true)}
+                  className="mt-2 w-full text-xs text-slate-500 hover:text-pixel-green transition-colors font-mono uppercase tracking-wider flex items-center justify-center gap-2"
+                >
+                  <ICONS.Play size={12} />
+                  Replay Tutorial
+                </button>
               </div>
 
               {/* Nav */}
