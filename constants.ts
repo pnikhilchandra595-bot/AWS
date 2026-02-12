@@ -47,7 +47,9 @@ import {
   Sun,
   Flame,
   Target,
-  TrendingUp
+  TrendingUp,
+  Mic,
+  HelpCircle
 } from 'lucide-react';
 
 export const ICONS = {
@@ -98,7 +100,9 @@ export const ICONS = {
   Sun,
   Flame,
   Target,
-  TrendingUp
+  TrendingUp,
+  Mic,
+  HelpCircle
 };
 
 export const SAMPLE_PROMPTS = [

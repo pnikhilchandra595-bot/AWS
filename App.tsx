@@ -15,6 +15,9 @@ import CommandPalette from './components/CommandPalette';
 import CodePlayground from './components/CodePlayground';
 import MessageSearch from './components/MessageSearch';
 import AchievementNotification from './components/AchievementNotification';
+import VoiceInput from './components/VoiceInput';
+import HelpOverlay from './components/HelpOverlay';
+import ErrorBoundary from './components/ErrorBoundary';
 import { useTheme } from './hooks/useTheme';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useStreak } from './hooks/useStreak';
@@ -66,6 +69,7 @@ export default function App() {
   const [showCommandPalette, setShowCommandPalette] = useState(false);
   const [showCodePlayground, setShowCodePlayground] = useState(false);
   const [showMessageSearch, setShowMessageSearch] = useState(false);
+  const [showHelpOverlay, setShowHelpOverlay] = useState(false);
   const [bookmarkedMessages, setBookmarkedMessages] = useState<string[]>([]);
   const [currentAchievement, setCurrentAchievement] = useState<Achievement | null>(null);
 
@@ -86,6 +90,7 @@ export default function App() {
       setShowCommandPalette(false);
       setShowMessageSearch(false);
       setShowCodePlayground(false);
+      setShowHelpOverlay(false);
     }
   });
 
@@ -348,11 +353,16 @@ export default function App() {
   }
 
   if (!user) {
-    return <AuthPage onAuthSuccess={(u) => { setUser(u); initChat(u.name); }} />;
+    return (
+      <ErrorBoundary>
+        <AuthPage onAuthSuccess={(u) => { setUser(u); initChat(u.name); }} />
+      </ErrorBoundary>
+    );
   }
 
   return (
-    <div className={`flex h-screen overflow-hidden bg-[#020617] text-slate-200 selection:bg-pixel-green/30 font-sans theme-${theme}`}>
+    <ErrorBoundary>
+      <div className={`flex h-screen overflow-hidden bg-[#020617] text-slate-200 selection:bg-pixel-green/30 font-sans theme-${theme}`}>
       <ToastProvider />
       <ParticleBackground />
       <AchievementNotification 
@@ -372,6 +382,11 @@ export default function App() {
       <CodePlayground
         isOpen={showCodePlayground}
         onClose={() => setShowCodePlayground(false)}
+      />
+
+      <HelpOverlay
+        isOpen={showHelpOverlay}
+        onClose={() => setShowHelpOverlay(false)}
       />
 
       <MessageSearch
@@ -428,7 +443,7 @@ export default function App() {
 
               {/* Quick Actions */}
               <div className="mb-6 relative z-10">
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-4 gap-2">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -460,6 +475,17 @@ export default function App() {
                   >
                     {theme === 'dark' ? <ICONS.Moon size={16} className="text-blue-400" /> : <ICONS.Sun size={16} className="text-yellow-400" />}
                     <span className="text-[9px] text-slate-400 font-mono">THEME</span>
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setShowHelpOverlay(true)}
+                    className="p-3 bg-slate-900/50 hover:bg-slate-800 border border-slate-700 rounded-lg flex flex-col items-center gap-1 transition-colors"
+                    title="Help & Guide"
+                  >
+                    <ICONS.HelpCircle size={16} className="text-blue-400" />
+                    <span className="text-[9px] text-slate-400 font-mono">HELP</span>
                   </motion.button>
                 </div>
               </div>
@@ -560,6 +586,16 @@ export default function App() {
                title="Search Messages (Ctrl+/)"
              >
                <ICONS.Search size={16} className="text-slate-400" />
+             </motion.button>
+
+             <motion.button
+               whileHover={{ scale: 1.05 }}
+               whileTap={{ scale: 0.95 }}
+               onClick={() => setShowHelpOverlay(true)}
+               className="p-2 hover:bg-slate-800 rounded transition-colors"
+               title="Help & Guide (?)"
+             >
+               <ICONS.HelpCircle size={16} className="text-slate-400" />
              </motion.button>
 
              {mode === AppMode.REFACTOR && (
@@ -763,22 +799,25 @@ export default function App() {
                      <span className="flex items-center gap-1"><ICONS.Cpu size={10} /> Gemini 3.0 Pro</span>
                      <span className="hidden sm:inline-flex items-center gap-1"><ICONS.Shield size={10} /> AES-256</span>
                   </div>
-                  <motion.button 
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleSend}
-                    disabled={!inputValue.trim() || isLoading}
-                    className="flex items-center gap-2 px-6 py-1.5 bg-pixel-green hover:bg-green-400 disabled:bg-slate-800 disabled:text-slate-600 text-[#020617] rounded-sm transition-all text-xs font-bold font-pixel shadow-[0_0_15px_rgba(34,197,94,0.3)] hover:shadow-[0_0_25px_rgba(34,197,94,0.5)] transform active:scale-95"
-                  >
-                    <span>EXECUTE</span>
-                    <ICONS.Terminal size={12} />
-                  </motion.button>
+                  <div className="flex items-center gap-2">
+                    <VoiceInput onTranscript={(text) => setInputValue(prev => prev + ' ' + text)} />
+                    <motion.button 
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={handleSend}
+                      disabled={!inputValue.trim() || isLoading}
+                      className="flex items-center gap-2 px-6 py-1.5 bg-pixel-green hover:bg-green-400 disabled:bg-slate-800 disabled:text-slate-600 text-[#020617] rounded-sm transition-all text-xs font-bold font-pixel shadow-[0_0_15px_rgba(34,197,94,0.3)] hover:shadow-[0_0_25px_rgba(34,197,94,0.5)] transform active:scale-95"
+                    >
+                      <span>EXECUTE</span>
+                      <ICONS.Terminal size={12} />
+                    </motion.button>
+                  </div>
                 </div>
               </div>
             </div>
             
             <p className="text-center text-[10px] text-slate-600 font-mono">
-              &gt; Keyboard shortcuts: Ctrl+K (Commands) | Ctrl+/ (Search) | Ctrl+E (Export)
+              &gt; Keyboard shortcuts: Ctrl+K (Commands) | Ctrl+/ (Search) | Ctrl+E (Export) | ? (Help)
             </p>
           </div>
         </div>
@@ -819,6 +858,7 @@ export default function App() {
         }
       `}</style>
     </div>
+    </ErrorBoundary>
   );
 }
 
