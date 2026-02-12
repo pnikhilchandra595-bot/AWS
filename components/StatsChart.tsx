@@ -34,49 +34,58 @@ const StatsChart: React.FC<StatsChartProps> = ({ stats }) => {
 
   return (
     <div className="space-y-4">
-      {/* HUGE Level Display */}
-      <div className="bg-gradient-to-br from-pixel-green/20 to-emerald-900/20 border-2 border-pixel-green/50 rounded-xl p-6 shadow-[0_0_30px_rgba(34,197,94,0.3)] relative overflow-hidden">
+      {/* MASSIVE ULTRA-VISIBLE Level Display */}
+      <div className="bg-gradient-to-br from-pixel-green/30 via-emerald-600/20 to-green-900/30 border-4 border-pixel-green rounded-2xl p-8 shadow-[0_0_50px_rgba(34,197,94,0.6)] relative overflow-hidden animate-pulse-slow">
         
-        {/* Animated Background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-pixel-green/5 to-transparent opacity-50 animate-pulse-slow" />
+        {/* Multiple Animated Backgrounds */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-pixel-green/10 to-transparent opacity-70 animate-pulse" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(34,197,94,0.15),transparent_70%)]" />
 
         {/* Level Content */}
         <div className="relative z-10 text-center">
-          <div className="text-xs font-mono text-pixel-green uppercase tracking-widest mb-2">Current Rank</div>
+          <div className="text-sm font-mono text-pixel-green uppercase tracking-[0.3em] mb-3 font-bold animate-pulse">⚡ CURRENT RANK ⚡</div>
           
-          {/* MASSIVE Level Number */}
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <div className="text-7xl font-black text-white font-mono leading-none">
+          {/* ULTRA MASSIVE Level Number */}
+          <div className="flex items-center justify-center gap-6 mb-6">
+            <div className="text-9xl font-black text-white font-mono leading-none drop-shadow-[0_0_25px_rgba(34,197,94,0.8)] animate-pulse">
               <Counter end={stats.level} />
             </div>
             <div className="text-left">
-              <div className="text-2xl font-bold text-pixel-green font-mono">LEVEL</div>
-              <div className="text-xs text-slate-400 bg-slate-900 px-2 py-1 rounded border border-slate-700 font-mono">DEV</div>
+              <div className="text-4xl font-black text-pixel-green font-mono drop-shadow-[0_0_15px_rgba(34,197,94,0.8)]">LEVEL</div>
+              <div className="text-sm text-white bg-pixel-green/20 px-3 py-1.5 rounded-lg border-2 border-pixel-green font-mono font-bold mt-2">DEVELOPER</div>
             </div>
           </div>
 
-          {/* XP Bar */}
-          <div className="space-y-2">
-            <div className="flex justify-between text-xs font-mono text-slate-400">
-              <span><Counter end={stats.xp % xpForNextLevel} /> XP</span>
-              <span>{xpForNextLevel} XP</span>
+          {/* Enhanced XP Bar */}
+          <div className="space-y-3">
+            <div className="flex justify-between text-sm font-mono text-pixel-green font-bold">
+              <span className="bg-slate-900/50 px-2 py-1 rounded border border-pixel-green/30"><Counter end={stats.xp % xpForNextLevel} /> XP</span>
+              <span className="bg-slate-900/50 px-2 py-1 rounded border border-pixel-green/30">{xpForNextLevel} XP</span>
             </div>
-            <div className="h-3 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-700">
+            <div className="h-4 w-full bg-slate-900 rounded-full overflow-hidden border-2 border-pixel-green/50 shadow-inner">
               <div 
-                className="h-full bg-gradient-to-r from-pixel-green to-emerald-400 shadow-[0_0_15px_rgba(34,197,94,0.6)] transition-all duration-1000 ease-out"
+                className="h-full bg-gradient-to-r from-pixel-green via-emerald-400 to-green-300 shadow-[0_0_20px_rgba(34,197,94,0.8)] transition-all duration-1000 ease-out relative"
                 style={{ width: `${progressPercent}%` }}
-              />
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
+              </div>
             </div>
-            <div className="text-center text-xs text-slate-500 font-mono">
-              {Math.floor(progressPercent)}% to Level {stats.level + 1}
+            <div className="text-center text-sm text-pixel-green font-mono font-bold bg-slate-900/50 py-1 rounded border border-pixel-green/30">
+              {Math.floor(progressPercent)}% → Level {stats.level + 1}
             </div>
           </div>
         </div>
 
-        {/* Trophy Icon */}
-        <div className="absolute top-4 right-4 opacity-20">
-          <ICONS.Trophy size={60} className="text-pixel-green" />
+        {/* Larger Trophy Icon with Glow */}
+        <div className="absolute top-6 right-6 opacity-30 animate-pulse">
+          <ICONS.Trophy size={80} className="text-pixel-green drop-shadow-[0_0_20px_rgba(34,197,94,0.8)]" />
         </div>
+
+        {/* Corner Decorations */}
+        <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-pixel-green" />
+        <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-pixel-green" />
+        <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-pixel-green" />
+        <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-pixel-green" />
       </div>
 
       {/* Compact Stats Grid */}
