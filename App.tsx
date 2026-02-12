@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ICONS, SAMPLE_PROMPTS, CATEGORIZED_PROMPTS } from './constants';
 import { Message, Sender, AppMode, QuizData, UserStats, RefactorType, QuizDifficulty, User } from './types';
 import { streamChatResponse, refactorCode, generateQuiz, generateSpeech } from './services/geminiService';
+import { streamGrokResponse, isXAIConfigured } from './services/xaiService';
 import { authService } from './services/authService';
 import MarkdownRenderer from './components/MarkdownRenderer';
 import QuizModal from './components/QuizModal';
@@ -308,6 +309,27 @@ export default function App() {
            setMessages(prev => prev.map(m => m.id === loadingMsgId ? { ...m, text: "Error: Could not generate quiz parameters. Try a different topic.", isStreaming: false } : m));
         }
 
+      } else if (mode === AppMode.GROK) {
+        // Grok Mode with Web Search & X Search
+        const aiMsgId = 'grok-' + Date.now();
+        setMessages(prev => [...prev, { id: aiMsgId, text: '', sender: Sender.AI, timestamp: Date.now(), isStreaming: true }]);
+
+        const grokHistory = messages.map(m => ({
+          role: m.sender === Sender.USER ? 'user' as const : 'assistant' as const,
+          content: m.text
+        })).slice(-8);
+
+        grokHistory.push({ role: 'user', content: userMsg.text });
+
+        let fullResponse = "";
+        await streamGrokResponse(grokHistory, (chunk) => {
+          fullResponse += chunk;
+          setMessages(prev => prev.map(m => m.id === aiMsgId ? { ...m, text: fullResponse } : m));
+        }, true);
+
+        setMessages(prev => prev.map(m => m.id === aiMsgId ? { ...m, isStreaming: false } : m));
+        updateStats(prev => ({ ...prev, conceptsLearned: prev.conceptsLearned + 1, xp: prev.xp + 15 }));
+
       } else {
         const aiMsgId = 'ai-' + Date.now();
         setMessages(prev => [...prev, { id: aiMsgId, text: '', sender: Sender.AI, timestamp: Date.now(), isStreaming: true }]);
@@ -542,6 +564,15 @@ export default function App() {
                   label="Skill Assessment" 
                   desc="Competency Verification"
                 />
+                {isXAIConfigured() && (
+                  <NavItem 
+                    active={mode === AppMode.GROK} 
+                    onClick={() => setMode(AppMode.GROK)}
+                    icon={ICONS.Globe} 
+                    label="Grok AI" 
+                    desc="Web Search & X Integration"
+                  />
+                )}
               </nav>
 
               {/* Streak Display */}
@@ -601,7 +632,7 @@ export default function App() {
           <div className="flex items-center gap-2">
             <span className="text-slate-500 text-xs font-mono uppercase">MODULE //</span>
             <span className="text-pixel-green font-bold tracking-wider text-sm font-mono animate-typewriter overflow-hidden whitespace-nowrap border-r-2 border-pixel-green/50 pr-1">
-              {mode === AppMode.LEARN ? "NEURAL_LEARNING" : mode === AppMode.REFACTOR ? "CODE_OPTIMIZATION" : "SKILL_VERIFICATION"}
+              {mode === AppMode.LEARN ? "NEURAL_LEARNING" : mode === AppMode.REFACTOR ? "CODE_OPTIMIZATION" : mode === AppMode.QUIZ ? "SKILL_VERIFICATION" : "GROK_AI_SEARCH"}
             </span>
           </div>
           
@@ -817,7 +848,8 @@ export default function App() {
                   placeholder={
                     mode === AppMode.LEARN ? "Ask command... (e.g. 'Explain closures')" : 
                     mode === AppMode.REFACTOR ? "Paste source code..." :
-                    "Enter quiz parameters..."
+                    mode === AppMode.QUIZ ? "Enter quiz parameters..." :
+                    "Ask Grok... (with web & X search)"
                   }
                   className="w-full bg-transparent text-slate-200 placeholder-slate-600 p-4 max-h-40 min-h-[80px] resize-none focus:outline-none text-sm font-mono leading-relaxed"
                   rows={1}

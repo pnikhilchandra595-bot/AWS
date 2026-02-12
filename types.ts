@@ -39,7 +39,8 @@ export interface QuizData {
 export enum AppMode {
   LEARN = 'LEARN',
   REFACTOR = 'REFACTOR',
-  QUIZ = 'QUIZ'
+  QUIZ = 'QUIZ',
+  GROK = 'GROK'
 }
 
 export enum RefactorType {
