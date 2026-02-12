@@ -115,27 +115,15 @@ export const SAMPLE_PROMPTS = [
 export const CATEGORIZED_PROMPTS = {
   FRONTEND: [
     "Explain React useEffect hook",
-    "CSS Grid vs Flexbox",
-    "Optimize React Performance",
-    "Explain Hydration in Next.js"
+    "CSS Grid vs Flexbox"
   ],
   BACKEND: [
-    "Design a scalable API architecture",
-    "How to prevent SQL Injection?",
-    "Redis Caching Strategies",
-    "Explain Microservices Patterns"
+    "Design a scalable API",
+    "Prevent SQL Injection"
   ],
   CS_FUNDAMENTALS: [
     "Explain Big O Notation",
-    "How does Garbage Collection work?",
-    "Explain TCP vs UDP",
-    "Binary Search Tree implementation"
-  ],
-  DEVOPS: [
-    "Explain Docker vs Kubernetes",
-    "CI/CD Pipeline Best Practices",
-    "AWS Lambda Cold Starts",
-    "Terraform State Management"
+    "Binary Search Tree"
   ]
 };
 

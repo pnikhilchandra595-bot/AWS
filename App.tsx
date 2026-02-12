@@ -34,7 +34,7 @@ const playAudio = (base64String: string) => {
   }
 };
 
-type PromptCategory = 'FRONTEND' | 'BACKEND' | 'CS_FUNDAMENTALS' | 'DEVOPS';
+type PromptCategory = 'FRONTEND' | 'BACKEND' | 'CS_FUNDAMENTALS';
 
 interface Achievement {
   id: string;

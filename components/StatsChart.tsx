@@ -33,55 +33,70 @@ const StatsChart: React.FC<StatsChartProps> = ({ stats }) => {
   const progressPercent = (stats.xp % xpForNextLevel) / xpForNextLevel * 100;
 
   return (
-    <div className="bg-[#0a0f16] border border-slate-800/60 rounded-xl p-5 space-y-5 shadow-xl relative overflow-hidden group">
-      
-      {/* Decorative Scanline */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-pixel-green/5 to-transparent opacity-0 group-hover:opacity-100 translate-y-[-100%] group-hover:translate-y-[100%] transition-all duration-1000 pointer-events-none" />
+    <div className="space-y-4">
+      {/* HUGE Level Display */}
+      <div className="bg-gradient-to-br from-pixel-green/20 to-emerald-900/20 border-2 border-pixel-green/50 rounded-xl p-6 shadow-[0_0_30px_rgba(34,197,94,0.3)] relative overflow-hidden">
+        
+        {/* Animated Background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-pixel-green/5 to-transparent opacity-50 animate-pulse-slow" />
 
-      {/* Level Header */}
-      <div className="flex items-center justify-between relative z-10">
-        <div>
-          <h3 className="text-pixel-green text-[10px] font-pixel uppercase tracking-widest opacity-80">Current Rank</h3>
-          <div className="text-2xl font-bold text-white mt-1 flex items-baseline gap-2 font-mono">
-            Level <Counter end={stats.level} />
-            <span className="text-xs font-normal text-slate-500 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">DEV</span>
+        {/* Level Content */}
+        <div className="relative z-10 text-center">
+          <div className="text-xs font-mono text-pixel-green uppercase tracking-widest mb-2">Current Rank</div>
+          
+          {/* MASSIVE Level Number */}
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <div className="text-7xl font-black text-white font-mono leading-none">
+              <Counter end={stats.level} />
+            </div>
+            <div className="text-left">
+              <div className="text-2xl font-bold text-pixel-green font-mono">LEVEL</div>
+              <div className="text-xs text-slate-400 bg-slate-900 px-2 py-1 rounded border border-slate-700 font-mono">DEV</div>
+            </div>
+          </div>
+
+          {/* XP Bar */}
+          <div className="space-y-2">
+            <div className="flex justify-between text-xs font-mono text-slate-400">
+              <span><Counter end={stats.xp % xpForNextLevel} /> XP</span>
+              <span>{xpForNextLevel} XP</span>
+            </div>
+            <div className="h-3 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-700">
+              <div 
+                className="h-full bg-gradient-to-r from-pixel-green to-emerald-400 shadow-[0_0_15px_rgba(34,197,94,0.6)] transition-all duration-1000 ease-out"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+            <div className="text-center text-xs text-slate-500 font-mono">
+              {Math.floor(progressPercent)}% to Level {stats.level + 1}
+            </div>
           </div>
         </div>
-        <div className="h-10 w-10 rounded bg-slate-900 border border-pixel-green/30 flex items-center justify-center shadow-[0_0_10px_rgba(34,197,94,0.2)] animate-pulse-slow">
-          <ICONS.Trophy size={18} className="text-pixel-green" />
+
+        {/* Trophy Icon */}
+        <div className="absolute top-4 right-4 opacity-20">
+          <ICONS.Trophy size={60} className="text-pixel-green" />
         </div>
       </div>
 
-      {/* XP Bar */}
-      <div className="relative z-10">
-        <div className="flex justify-between text-[10px] font-mono text-slate-400 mb-2">
-          <span><Counter end={stats.xp % xpForNextLevel} /> XP</span>
-          <span>{xpForNextLevel} XP</span>
-        </div>
-        <div className="h-2 w-full bg-slate-900 rounded-sm overflow-hidden border border-slate-800">
-          <div 
-            className="h-full bg-pixel-green shadow-[0_0_10px_rgba(34,197,94,0.5)] transition-all duration-1000 ease-out"
-            style={{ width: `${progressPercent}%` }}
-          />
-        </div>
-      </div>
-
-      {/* Grid Stats */}
-      <div className="grid grid-cols-2 gap-3 pt-2 relative z-10">
+      {/* Compact Stats Grid */}
+      <div className="grid grid-cols-2 gap-2">
         <StatItem icon={ICONS.BrainCircuit} label="Learned" value={stats.conceptsLearned} color="text-cyan-400" />
         <StatItem icon={ICONS.CheckCircle2} label="Solved" value={stats.correctAnswers} color="text-emerald-400" />
         <StatItem icon={ICONS.RefreshCw} label="Refactors" value={stats.refactorsPerformed} color="text-purple-400" />
-        <StatItem icon={ICONS.Cpu} label="IQ Score" value={Math.floor(stats.xp * 0.5) + 85} color="text-yellow-400" />
+        <StatItem icon={ICONS.Zap} label="Total XP" value={stats.xp} color="text-yellow-400" />
       </div>
     </div>
   );
 };
 
 const StatItem = ({ icon: Icon, label, value, color }: any) => (
-  <div className="bg-slate-900/40 hover:bg-slate-800/60 rounded p-2 border border-slate-800 hover:border-slate-600 flex flex-col items-center justify-center gap-1 transition-all duration-300 group">
-    <Icon size={14} className={`${color} opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-transform`} />
-    <span className="text-base font-bold text-slate-200 font-mono"><Counter end={value} /></span>
-    <span className="text-[9px] text-slate-500 uppercase tracking-wider font-pixel">{label}</span>
+  <div className="bg-slate-900/60 rounded p-2.5 border border-slate-800 flex items-center gap-2 transition-all duration-300 hover:border-pixel-green/30">
+    <Icon size={16} className={`${color}`} />
+    <div className="flex-1 min-w-0">
+      <div className="text-lg font-bold text-white font-mono leading-none"><Counter end={value} /></div>
+      <div className="text-[8px] text-slate-500 uppercase tracking-wider font-mono">{label}</div>
+    </div>
   </div>
 );
 
