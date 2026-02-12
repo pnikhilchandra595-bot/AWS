@@ -82,6 +82,11 @@ export default function App() {
   const { theme, toggleTheme } = useTheme();
   const streak = useStreak(user?.id);
 
+  // Apply theme to document root
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
   // Keyboard Shortcuts
   useKeyboardShortcuts({
     'ctrl+k': () => setShowCommandPalette(true),
@@ -371,7 +376,7 @@ export default function App() {
 
   return (
     <ErrorBoundary>
-      <div className={`flex h-screen overflow-hidden bg-[#020617] text-slate-200 selection:bg-pixel-green/30 font-sans theme-${theme}`}>
+      <div className="flex h-screen overflow-hidden bg-[var(--bg-primary)] text-[var(--text-primary)] selection:bg-pixel-green/30 font-sans">
       <ToastProvider />
       <ParticleBackground />
       <AchievementNotification 

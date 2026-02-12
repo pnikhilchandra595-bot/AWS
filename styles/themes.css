@@ -1,4 +1,5 @@
 /* Theme Variables */
+:root,
 :root[data-theme="dark"] {
   --bg-primary: #020617;
   --bg-secondary: #050a10;
@@ -27,6 +28,12 @@
   --text-secondary: #a78bfa;
   --border-color: #7c3aed;
   --accent-color: #a855f7;
+}
+
+/* Apply theme colors globally */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 /* Custom Scrollbar */
