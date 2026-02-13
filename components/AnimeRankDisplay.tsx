@@ -85,8 +85,8 @@ export default function AnimeRankDisplay({ stats, streak }: AnimeRankDisplayProp
               <div className="text-xs text-slate-400">Concepts</div>
             </div>
             <div className="bg-slate-800/50 rounded-lg p-3 text-center">
-              <div className="text-2xl font-bold text-green-400">{stats.quizzesPassed}</div>
-              <div className="text-xs text-slate-400">Quizzes</div>
+              <div className="text-2xl font-bold text-green-400">{stats.questionsAnswered}</div>
+              <div className="text-xs text-slate-400">Questions</div>
             </div>
             <div className="bg-slate-800/50 rounded-lg p-3 text-center">
               <div className="text-2xl font-bold text-orange-400">{streak}🔥</div>
