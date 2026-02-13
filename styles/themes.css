@@ -45,6 +45,21 @@
   --gradient-4: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
 }
 
+:root[data-theme="naruto"] {
+  --bg-primary: linear-gradient(135deg, #1a0f0a 0%, #2d1810 50%, #4a2818 100%);
+  --bg-secondary: rgba(45, 24, 16, 0.95);
+  --bg-tertiary: rgba(74, 40, 24, 0.8);
+  --text-primary: #fff5e6;
+  --text-secondary: #ffd4a3;
+  --border-color: rgba(251, 146, 60, 0.4);
+  --accent-color: #f59e0b;
+  --accent-glow: rgba(245, 158, 11, 0.6);
+  --gradient-1: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+  --gradient-2: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  --gradient-3: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
+  --gradient-4: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+}
+
 /* Apply theme colors globally */
 body {
   background: var(--bg-primary);
@@ -350,6 +365,66 @@ body::before {
 .hover-lift:hover {
   transform: translate3d(0, -2px, 0);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Anime-inspired animations */
+@keyframes jutsu-seal {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.2);
+    opacity: 0.7;
+  }
+}
+
+@keyframes chakra-flow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(239, 68, 68, 0.8);
+  }
+}
+
+@keyframes ninja-dash {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-jutsu-seal {
+  animation: jutsu-seal 3s ease-in-out infinite;
+}
+
+.animate-chakra-flow {
+  animation: chakra-flow 2s ease-in-out infinite;
+}
+
+.animate-ninja-dash {
+  animation: ninja-dash 1s ease-out;
+}
+
+.animate-spin-slow {
+  animation: spin 20s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .delay-100 {

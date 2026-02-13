@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export type Theme = 'dark' | 'light' | 'cyberpunk';
+export type Theme = 'dark' | 'light' | 'cyberpunk' | 'naruto';
 
 export const useTheme = () => {
   const [theme, setTheme] = useState<Theme>(() => {
@@ -17,6 +17,7 @@ export const useTheme = () => {
     setTheme(prev => {
       if (prev === 'dark') return 'light';
       if (prev === 'light') return 'cyberpunk';
+      if (prev === 'cyberpunk') return 'naruto';
       return 'dark';
     });
   };

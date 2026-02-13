@@ -37,6 +37,8 @@ import AppLoadingSkeleton from './components/AppLoadingSkeleton';
 import ConfirmDialog from './components/ConfirmDialog';
 import QuickStatsBadge from './components/QuickStatsBadge';
 import FloatingActionButton from './components/FloatingActionButton';
+import AnimeRankDisplay from './components/AnimeRankDisplay';
+import JutsuUnlocked from './components/JutsuUnlocked';
 import { useTheme } from './hooks/useTheme';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useStreak } from './hooks/useStreak';
@@ -111,6 +113,7 @@ export default function App() {
   const [showShareProgress, setShowShareProgress] = useState(false);
   const [isAppLoading, setIsAppLoading] = useState(true);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
+  const [unlockedJutsu, setUnlockedJutsu] = useState<any>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -911,7 +914,11 @@ export default function App() {
 
               {/* Stats & User */}
               <div className="mt-8 space-y-4 animate-fade-in-up delay-200 relative z-10">
-                <StatsChart stats={user.stats} />
+                {theme === 'naruto' ? (
+                  <AnimeRankDisplay stats={user.stats} />
+                ) : (
+                  <StatsChart stats={user.stats} />
+                )}
                 
                 <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -1357,6 +1364,12 @@ export default function App() {
           onOpenCodePlayground={() => setShowCodePlayground(true)}
           onOpenHelp={() => setShowHelpOverlay(true)}
           onStartQuiz={() => setMode(AppMode.QUIZ)}
+        />
+
+        {/* Jutsu Unlocked Notification */}
+        <JutsuUnlocked
+          jutsu={unlockedJutsu}
+          onClose={() => setUnlockedJutsu(null)}
         />
 
       </main>
