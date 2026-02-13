@@ -52,7 +52,13 @@ import {
   HelpCircle,
   AlertTriangle,
   AlertCircle,
-  Info
+  Info,
+  Calendar,
+  Bell,
+  Video,
+  Eye,
+  Type,
+  ShoppingCart
 } from 'lucide-react';
 
 export const ICONS = {
@@ -108,7 +114,13 @@ export const ICONS = {
   HelpCircle,
   AlertTriangle,
   AlertCircle,
-  Info
+  Info,
+  Calendar,
+  Bell,
+  Video,
+  Eye,
+  Type,
+  ShoppingCart
 };
 
 export const SAMPLE_PROMPTS = [
