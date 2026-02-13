@@ -589,7 +589,7 @@ export default function App() {
       <ShareProgress
         isOpen={showShareProgress}
         onClose={() => setShowShareProgress(false)}
-        stats={user?.stats || { level: 1, xp: 0, conceptsLearned: 0, quizzesPassed: 0, streak: 0 }}
+        stats={user?.stats || { level: 1, xp: 0, conceptsLearned: 0, questionsAnswered: 0, correctAnswers: 0, refactorsPerformed: 0, streak: 0 }}
         userName={user?.name || 'Developer'}
       />
 

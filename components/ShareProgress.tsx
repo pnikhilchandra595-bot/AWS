@@ -19,7 +19,7 @@ export default function ShareProgress({ isOpen, onClose, stats, userName }: Shar
 ⚡ Level ${stats.level}
 🎯 ${stats.xp} XP
 📚 ${stats.conceptsLearned} Concepts Learned
-🏆 ${stats.quizzesPassed} Quizzes Passed
+🏆 ${stats.questionsAnswered} Questions Answered
 🔥 ${stats.streak} Day Streak
 
 Join me on DevFlow AI - The next-gen developer learning platform!
@@ -55,7 +55,7 @@ Join me on DevFlow AI - The next-gen developer learning platform!
     ctx.fillText(`Level ${stats.level}`, 60, 200);
     ctx.fillText(`${stats.xp} XP`, 60, 260);
     ctx.fillText(`${stats.conceptsLearned} Concepts`, 60, 320);
-    ctx.fillText(`${stats.quizzesPassed} Quizzes`, 60, 380);
+    ctx.fillText(`${stats.questionsAnswered} Questions`, 60, 380);
     ctx.fillText(`${stats.streak} Day Streak`, 60, 440);
 
     // User name

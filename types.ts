@@ -63,4 +63,5 @@ export interface UserStats {
   questionsAnswered: number;
   correctAnswers: number;
   refactorsPerformed: number;
+  streak: number;
 }
