@@ -58,7 +58,9 @@ import {
   Video,
   Eye,
   Type,
-  ShoppingCart
+  ShoppingCart,
+  Keyboard,
+  Trash2
 } from 'lucide-react';
 
 export const ICONS = {
@@ -120,7 +122,9 @@ export const ICONS = {
   Video,
   Eye,
   Type,
-  ShoppingCart
+  ShoppingCart,
+  Keyboard,
+  Trash2
 };
 
 export const SAMPLE_PROMPTS = [

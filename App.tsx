@@ -31,6 +31,9 @@ import SmartSuggestions from './components/SmartSuggestions';
 import ComingSoonFeature from './components/ComingSoonFeature';
 import { comingSoonFeatures } from './data/comingSoonFeatures';
 import type { Personality } from './components/AIPersonalitySelector';
+import KeyboardShortcutsGuide from './components/KeyboardShortcutsGuide';
+import ShareProgress from './components/ShareProgress';
+import AppLoadingSkeleton from './components/AppLoadingSkeleton';
 import { useTheme } from './hooks/useTheme';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useStreak } from './hooks/useStreak';
@@ -99,6 +102,11 @@ export default function App() {
   const [showAccessibility, setShowAccessibility] = useState(false);
   const [selectedComingSoon, setSelectedComingSoon] = useState<string | null>(null);
   const [currentPersonality, setCurrentPersonality] = useState('friendly');
+  
+  // New Improvement Features State
+  const [showKeyboardGuide, setShowKeyboardGuide] = useState(false);
+  const [showShareProgress, setShowShareProgress] = useState(false);
+  const [isAppLoading, setIsAppLoading] = useState(true);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -111,6 +119,26 @@ export default function App() {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
+
+  // App loading simulation
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsAppLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Keyboard shortcut for guide
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === '?' && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        setShowKeyboardGuide(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, []);
 
   // Keyboard Shortcuts
   useKeyboardShortcuts({
@@ -486,6 +514,10 @@ export default function App() {
     }
   };
 
+  if (isAppLoading) {
+    return <AppLoadingSkeleton />;
+  }
+
   if (showIntro) {
     return <IntroOverlay onComplete={() => setShowIntro(false)} />;
   }
@@ -538,6 +570,18 @@ export default function App() {
         onClose={() => setShowMessageSearch(false)}
         messages={messages}
         onSelectMessage={scrollToMessage}
+      />
+
+      <KeyboardShortcutsGuide
+        isOpen={showKeyboardGuide}
+        onClose={() => setShowKeyboardGuide(false)}
+      />
+
+      <ShareProgress
+        isOpen={showShareProgress}
+        onClose={() => setShowShareProgress(false)}
+        stats={stats}
+        userName={user?.name || 'Developer'}
       />
 
       {/* Mobile Sidebar Overlay */}
@@ -729,6 +773,57 @@ export default function App() {
                     <ICONS.Sparkles size={16} className="text-purple-400" />
                     <span className="text-[9px] text-slate-400 font-mono">MORE</span>
                     <span className="absolute -top-1 -right-1 w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
+                  </motion.button>
+                </div>
+
+                {/* NEW Fourth Row - Utility Features */}
+                <div className="grid grid-cols-4 gap-2 mt-2">
+                  <motion.button
+                    whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(251, 146, 60, 0.5)' }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setShowKeyboardGuide(true)}
+                    className="p-3 bg-gradient-to-br from-orange-500/10 to-amber-500/10 hover:from-orange-500/20 hover:to-amber-500/20 border border-orange-500/40 rounded-lg flex flex-col items-center gap-1 transition-all duration-300"
+                    title="Keyboard Shortcuts (?)"
+                    style={{ boxShadow: '0 0 10px rgba(251, 146, 60, 0.2)' }}
+                  >
+                    <ICONS.Keyboard size={16} className="text-orange-400" />
+                    <span className="text-[9px] text-slate-300 font-mono">KEYS</span>
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(34, 197, 94, 0.5)' }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setShowShareProgress(true)}
+                    className="p-3 bg-gradient-to-br from-green-500/10 to-emerald-500/10 hover:from-green-500/20 hover:to-emerald-500/20 border border-green-500/40 rounded-lg flex flex-col items-center gap-1 transition-all duration-300"
+                    title="Share Progress"
+                    style={{ boxShadow: '0 0 10px rgba(34, 197, 94, 0.2)' }}
+                  >
+                    <ICONS.Share2 size={16} className="text-green-400" />
+                    <span className="text-[9px] text-slate-300 font-mono">SHARE</span>
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)' }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={handleExportChat}
+                    className="p-3 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 hover:from-blue-500/20 hover:to-indigo-500/20 border border-blue-500/40 rounded-lg flex flex-col items-center gap-1 transition-all duration-300"
+                    title="Export Chat (Ctrl+E)"
+                    style={{ boxShadow: '0 0 10px rgba(59, 130, 246, 0.2)' }}
+                  >
+                    <ICONS.Download size={16} className="text-blue-400" />
+                    <span className="text-[9px] text-slate-300 font-mono">EXPORT</span>
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(239, 68, 68, 0.5)' }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={handleClearChat}
+                    className="p-3 bg-gradient-to-br from-red-500/10 to-rose-500/10 hover:from-red-500/20 hover:to-rose-500/20 border border-red-500/40 rounded-lg flex flex-col items-center gap-1 transition-all duration-300"
+                    title="Clear Chat"
+                    style={{ boxShadow: '0 0 10px rgba(239, 68, 68, 0.2)' }}
+                  >
+                    <ICONS.Trash2 size={16} className="text-red-400" />
+                    <span className="text-[9px] text-slate-300 font-mono">CLEAR</span>
                   </motion.button>
                 </div>
 

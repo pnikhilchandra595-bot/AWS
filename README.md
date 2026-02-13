@@ -6,6 +6,38 @@
 
 An intelligent, AI-powered learning platform that combines Google's Gemini AI with gamification mechanics to create an engaging, personalized coding education experience.
 
+## 🎥 Demo & Screenshots
+
+> **Live Demo:** [Coming Soon - Deploy to Vercel]
+
+### ✨ Key Highlights
+
+- 🎨 **Beautiful Animated UI** - Gradient themes with smooth transitions
+- 🤖 **Multiple AI Modes** - Learn, Refactor, Quiz, and Grok AI
+- 🎮 **Gamification** - XP, levels, streaks, and achievements
+- ⚡ **Performance Optimized** - GPU-accelerated animations, 60 FPS
+- 📱 **Fully Responsive** - Works seamlessly on all devices
+- ♿ **Accessible** - WCAG compliant with accessibility panel
+
+### 🖼️ Screenshots
+
+<details>
+<summary>Click to view screenshots</summary>
+
+**Main Interface**
+- Modern gradient UI with purple/blue theme
+- Real-time AI chat with streaming responses
+- Interactive sidebar with quick actions
+
+**Features Showcase**
+- AI Personality Selector (6 unique personalities)
+- Daily Coding Challenges with streak tracking
+- Advanced Analytics Dashboard
+- Code Playground with live execution
+- Learning Path visualization
+
+</details>
+
 ## ✨ Key Features
 
 ### 🎨 **Theme System**
