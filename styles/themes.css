@@ -334,6 +334,12 @@ body::before {
   backface-visibility: hidden;
 }
 
+/* 3D Perspective for anime effects */
+.perspective-1000 {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
 /* Micro-interactions */
 @keyframes button-press {
   0% {
