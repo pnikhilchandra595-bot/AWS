@@ -69,6 +69,11 @@ body {
   overflow-x: hidden;
 }
 
+.theme-bg {
+  background: var(--bg-primary);
+  transition: background 0.5s ease;
+}
+
 /* Simplified animated background overlay - GPU accelerated */
 body::before {
   content: '';

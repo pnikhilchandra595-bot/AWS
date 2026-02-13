@@ -229,6 +229,15 @@ export default function App() {
         icon: 'BookOpen',
         xp: 50
       });
+      
+      // Naruto theme: Unlock Shadow Clone Jutsu
+      if (theme === 'naruto') {
+        setUnlockedJutsu({
+          name: 'Shadow Clone Jutsu',
+          description: 'Create multiple copies to learn faster!',
+          icon: '🥷'
+        });
+      }
     }
 
     if (stats.refactorsPerformed === 10) {
@@ -239,6 +248,15 @@ export default function App() {
         icon: 'Code2',
         xp: 100
       });
+      
+      // Naruto theme: Unlock Rasengan
+      if (theme === 'naruto') {
+        setUnlockedJutsu({
+          name: 'Rasengan',
+          description: 'Spiral your code to perfection!',
+          icon: '🌀'
+        });
+      }
     }
 
     if (stats.questionsAnswered >= 5 && stats.correctAnswers === stats.questionsAnswered) {
@@ -249,6 +267,15 @@ export default function App() {
         icon: 'Trophy',
         xp: 150
       });
+      
+      // Naruto theme: Unlock Chidori
+      if (theme === 'naruto') {
+        setUnlockedJutsu({
+          name: 'Chidori',
+          description: 'Lightning-fast accuracy!',
+          icon: '⚡'
+        });
+      }
     }
 
     if (streak.currentStreak === 7) {
@@ -259,6 +286,15 @@ export default function App() {
         icon: 'Flame',
         xp: 200
       });
+      
+      // Naruto theme: Unlock Fire Style
+      if (theme === 'naruto') {
+        setUnlockedJutsu({
+          name: 'Fire Style: Fireball Jutsu',
+          description: 'Your streak is on fire!',
+          icon: '🔥'
+        });
+      }
     }
 
     if (achievements.length > 0) {
@@ -541,9 +577,22 @@ export default function App() {
 
   return (
     <ErrorBoundary>
-      <div className="flex h-screen overflow-hidden text-[var(--text-primary)] selection:bg-purple-500/30 font-sans relative" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%)' }}>
+      <div className="flex h-screen overflow-hidden text-[var(--text-primary)] selection:bg-purple-500/30 font-sans relative theme-bg">
       <ToastProvider />
       <ParticleBackground />
+      
+      {/* Naruto Theme Floating Elements */}
+      {theme === 'naruto' && (
+        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+          <div className="absolute top-10 left-20 text-6xl opacity-20 animate-float" style={{ animationDelay: '0s' }}>🍥</div>
+          <div className="absolute top-40 right-32 text-5xl opacity-15 animate-float" style={{ animationDelay: '1s' }}>⚡</div>
+          <div className="absolute bottom-32 left-40 text-7xl opacity-10 animate-float" style={{ animationDelay: '2s' }}>🔥</div>
+          <div className="absolute top-1/2 right-20 text-6xl opacity-20 animate-jutsu-seal">🌀</div>
+          <div className="absolute bottom-20 right-1/3 text-5xl opacity-15 animate-float" style={{ animationDelay: '1.5s' }}>🥷</div>
+          <div className="absolute top-1/3 left-1/4 text-4xl opacity-10 animate-float" style={{ animationDelay: '0.5s' }}>🗡️</div>
+        </div>
+      )}
+      
       <AchievementNotification 
         achievement={currentAchievement} 
         onClose={() => setCurrentAchievement(null)} 
@@ -916,7 +965,23 @@ export default function App() {
               {/* Stats & User */}
               <div className="mt-8 space-y-4 animate-fade-in-up delay-200 relative z-10">
                 {theme === 'naruto' ? (
-                  <AnimeRankDisplay stats={user.stats} streak={streak.currentStreak} />
+                  <>
+                    {/* Naruto Theme Header */}
+                    <div className="mb-4 p-4 bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-500/50 rounded-lg relative overflow-hidden animate-chakra-flow">
+                      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMiIgZmlsbD0icmdiYSgyNTUsMTY1LDAsMC4xKSIvPjwvc3ZnPg==')] opacity-30"></div>
+                      <div className="relative z-10 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="text-4xl animate-jutsu-seal">🍥</div>
+                          <div>
+                            <div className="text-xs text-orange-300 font-bold uppercase tracking-wider">Ninja Way</div>
+                            <div className="text-lg font-bold text-white">Believe It!</div>
+                          </div>
+                        </div>
+                        <div className="text-3xl animate-float">🔥</div>
+                      </div>
+                    </div>
+                    <AnimeRankDisplay stats={user.stats} streak={streak.currentStreak} />
+                  </>
                 ) : (
                   <StatsChart stats={user.stats} />
                 )}
@@ -1022,6 +1087,19 @@ export default function App() {
           
           {/* Context Controls */}
           <div className="flex items-center gap-3 animate-fade-in">
+             {/* Naruto Theme Indicator */}
+             {theme === 'naruto' && (
+               <motion.div
+                 initial={{ scale: 0 }}
+                 animate={{ scale: 1 }}
+                 className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/50 rounded-full animate-chakra-flow"
+               >
+                 <span className="text-xl animate-jutsu-seal">🍥</span>
+                 <span className="text-xs font-bold text-orange-300 uppercase tracking-wider">Ninja Mode</span>
+                 <span className="text-lg animate-float">⚡</span>
+               </motion.div>
+             )}
+             
              {/* Quick Stats Badge */}
              {user && <QuickStatsBadge stats={user.stats} />}
 
