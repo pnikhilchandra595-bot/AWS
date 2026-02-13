@@ -24,6 +24,13 @@ import AIComparisonMode from './components/AIComparisonMode';
 import AnalyticsDashboard from './components/AnalyticsDashboard';
 import LearningPath from './components/LearningPath';
 import CodeReviewMode from './components/CodeReviewMode';
+import AIPersonalitySelector from './components/AIPersonalitySelector';
+import DailyChallenges from './components/DailyChallenges';
+import AccessibilityPanel from './components/AccessibilityPanel';
+import SmartSuggestions from './components/SmartSuggestions';
+import ComingSoonFeature from './components/ComingSoonFeature';
+import { comingSoonFeatures } from './data/comingSoonFeatures';
+import type { Personality } from './components/AIPersonalitySelector';
 import { useTheme } from './hooks/useTheme';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useStreak } from './hooks/useStreak';
@@ -86,6 +93,13 @@ export default function App() {
   const [showLearningPath, setShowLearningPath] = useState(false);
   const [showCodeReview, setShowCodeReview] = useState(false);
 
+  // New Advanced Features State
+  const [showPersonalitySelector, setShowPersonalitySelector] = useState(false);
+  const [showDailyChallenge, setShowDailyChallenge] = useState(false);
+  const [showAccessibility, setShowAccessibility] = useState(false);
+  const [selectedComingSoon, setSelectedComingSoon] = useState<string | null>(null);
+  const [currentPersonality, setCurrentPersonality] = useState('friendly');
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -108,6 +122,8 @@ export default function App() {
     'ctrl+shift+a': () => setShowAnalytics(true),
     'ctrl+shift+l': () => setShowLearningPath(true),
     'ctrl+shift+r': () => setShowCodeReview(true),
+    'ctrl+shift+p': () => setShowPersonalitySelector(true),
+    'ctrl+shift+d': () => setShowDailyChallenge(true),
     'escape': () => {
       setShowCommandPalette(false);
       setShowMessageSearch(false);
@@ -117,6 +133,10 @@ export default function App() {
       setShowAnalytics(false);
       setShowLearningPath(false);
       setShowCodeReview(false);
+      setShowPersonalitySelector(false);
+      setShowDailyChallenge(false);
+      setShowAccessibility(false);
+      setSelectedComingSoon(null);
     }
   });
 
@@ -328,6 +348,19 @@ export default function App() {
     await new Promise(resolve => setTimeout(resolve, 2000));
     
     return issues;
+  };
+
+  // Personality Handler
+  const handlePersonalitySelect = (personality: Personality) => {
+    setCurrentPersonality(personality.id);
+    toast.success(`AI Personality changed to ${personality.name}!`);
+    // In production, this would update the system prompt for AI calls
+  };
+
+  // Daily Challenge Complete Handler
+  const handleChallengeComplete = (challengeId: string, xp: number) => {
+    updateStats(prev => ({ ...prev, xp: prev.xp + xp }));
+    toast.success(`Challenge complete! +${xp} XP`);
   };
 
   // Scroll to message
@@ -647,6 +680,54 @@ export default function App() {
                   </motion.button>
                 </div>
 
+                {/* NEW Advanced Features Row */}
+                <div className="grid grid-cols-4 gap-2">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setShowPersonalitySelector(true)}
+                    className="p-3 bg-gradient-to-br from-pink-500/10 to-rose-500/10 hover:from-pink-500/20 hover:to-rose-500/20 border border-pink-500/30 rounded-lg flex flex-col items-center gap-1 transition-colors"
+                    title="AI Personality (Ctrl+Shift+P)"
+                  >
+                    <ICONS.Heart size={16} className="text-pink-400" />
+                    <span className="text-[9px] text-slate-400 font-mono">PERSONA</span>
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setShowDailyChallenge(true)}
+                    className="p-3 bg-gradient-to-br from-orange-500/10 to-yellow-500/10 hover:from-orange-500/20 hover:to-yellow-500/20 border border-orange-500/30 rounded-lg flex flex-col items-center gap-1 transition-colors"
+                    title="Daily Challenge (Ctrl+Shift+D)"
+                  >
+                    <ICONS.Target size={16} className="text-orange-400" />
+                    <span className="text-[9px] text-slate-400 font-mono">DAILY</span>
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setShowAccessibility(true)}
+                    className="p-3 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 hover:from-blue-500/20 hover:to-cyan-500/20 border border-blue-500/30 rounded-lg flex flex-col items-center gap-1 transition-colors"
+                    title="Accessibility"
+                  >
+                    <ICONS.Users size={16} className="text-blue-400" />
+                    <span className="text-[9px] text-slate-400 font-mono">A11Y</span>
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setSelectedComingSoon('voice-commands')}
+                    className="p-3 bg-gradient-to-br from-purple-500/10 to-indigo-500/10 hover:from-purple-500/20 hover:to-indigo-500/20 border border-purple-500/30 rounded-lg flex flex-col items-center gap-1 transition-colors relative"
+                    title="More Features"
+                  >
+                    <ICONS.Sparkles size={16} className="text-purple-400" />
+                    <span className="text-[9px] text-slate-400 font-mono">MORE</span>
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
+                  </motion.button>
+                </div>
+
                 {/* Replay Tutorial Button */}
                 <button
                   onClick={() => setShowOnboarding(true)}
@@ -656,6 +737,17 @@ export default function App() {
                   Replay Tutorial
                 </button>
               </div>
+
+              {/* Smart Suggestions */}
+              {user && (
+                <SmartSuggestions
+                  userStats={user.stats}
+                  onSelectTopic={(topic) => {
+                    setInputValue(`Explain ${topic}`);
+                    inputRef.current?.focus();
+                  }}
+                />
+              )}
 
               {/* Nav */}
               <nav className="space-y-3 flex-1 animate-fade-in-up delay-100 relative z-10">
@@ -1047,6 +1139,34 @@ export default function App() {
           onClose={() => setShowCodeReview(false)}
           onReview={handleCodeReview}
         />
+
+        {/* NEW Advanced Features */}
+        <AIPersonalitySelector
+          isOpen={showPersonalitySelector}
+          onClose={() => setShowPersonalitySelector(false)}
+          onSelect={handlePersonalitySelect}
+          currentPersonality={currentPersonality}
+        />
+
+        <DailyChallenges
+          isOpen={showDailyChallenge}
+          onClose={() => setShowDailyChallenge(false)}
+          onComplete={handleChallengeComplete}
+          userStreak={streak.currentStreak}
+        />
+
+        <AccessibilityPanel
+          isOpen={showAccessibility}
+          onClose={() => setShowAccessibility(false)}
+        />
+
+        {selectedComingSoon && (
+          <ComingSoonFeature
+            isOpen={!!selectedComingSoon}
+            onClose={() => setSelectedComingSoon(null)}
+            feature={comingSoonFeatures.find(f => f.id === selectedComingSoon)!}
+          />
+        )}
 
       </main>
 
