@@ -4,9 +4,10 @@ import { UserStats } from '../types';
 
 interface AnimeRankDisplayProps {
   stats: UserStats;
+  streak: number;
 }
 
-export default function AnimeRankDisplay({ stats }: AnimeRankDisplayProps) {
+export default function AnimeRankDisplay({ stats, streak }: AnimeRankDisplayProps) {
   const rank = getNarutoRank(stats.level);
   const nextRankLevel = stats.level < 100 ? Math.ceil(stats.level / 10) * 10 : 100;
   const progress = ((stats.level % 10) / 10) * 100;
@@ -88,7 +89,7 @@ export default function AnimeRankDisplay({ stats }: AnimeRankDisplayProps) {
               <div className="text-xs text-slate-400">Quizzes</div>
             </div>
             <div className="bg-slate-800/50 rounded-lg p-3 text-center">
-              <div className="text-2xl font-bold text-orange-400">{stats.streak}🔥</div>
+              <div className="text-2xl font-bold text-orange-400">{streak}🔥</div>
               <div className="text-xs text-slate-400">Streak</div>
             </div>
           </div>

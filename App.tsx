@@ -589,8 +589,9 @@ export default function App() {
       <ShareProgress
         isOpen={showShareProgress}
         onClose={() => setShowShareProgress(false)}
-        stats={user?.stats || { level: 1, xp: 0, conceptsLearned: 0, questionsAnswered: 0, correctAnswers: 0, refactorsPerformed: 0, streak: 0 }}
+        stats={user?.stats || { level: 1, xp: 0, conceptsLearned: 0, questionsAnswered: 0, correctAnswers: 0, refactorsPerformed: 0 }}
         userName={user?.name || 'Developer'}
+        streak={streak.currentStreak}
       />
 
       {/* Mobile Sidebar Overlay */}
@@ -915,7 +916,7 @@ export default function App() {
               {/* Stats & User */}
               <div className="mt-8 space-y-4 animate-fade-in-up delay-200 relative z-10">
                 {theme === 'naruto' ? (
-                  <AnimeRankDisplay stats={user.stats} />
+                  <AnimeRankDisplay stats={user.stats} streak={streak.currentStreak} />
                 ) : (
                   <StatsChart stats={user.stats} />
                 )}

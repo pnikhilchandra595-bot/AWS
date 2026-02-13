@@ -9,8 +9,7 @@ const initialStats: UserStats = {
   conceptsLearned: 0,
   questionsAnswered: 0,
   correctAnswers: 0,
-  refactorsPerformed: 0,
-  streak: 0
+  refactorsPerformed: 0
 };
 
 // Helper to get DB

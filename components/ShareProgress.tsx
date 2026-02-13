@@ -8,9 +8,10 @@ interface ShareProgressProps {
   onClose: () => void;
   stats: UserStats;
   userName: string;
+  streak: number;
 }
 
-export default function ShareProgress({ isOpen, onClose, stats, userName }: ShareProgressProps) {
+export default function ShareProgress({ isOpen, onClose, stats, userName, streak }: ShareProgressProps) {
   const [copied, setCopied] = useState(false);
 
   const shareText = `🚀 My DevFlow AI Progress
@@ -20,7 +21,7 @@ export default function ShareProgress({ isOpen, onClose, stats, userName }: Shar
 🎯 ${stats.xp} XP
 📚 ${stats.conceptsLearned} Concepts Learned
 🏆 ${stats.questionsAnswered} Questions Answered
-🔥 ${stats.streak} Day Streak
+🔥 ${streak} Day Streak
 
 Join me on DevFlow AI - The next-gen developer learning platform!
 `;
@@ -56,7 +57,7 @@ Join me on DevFlow AI - The next-gen developer learning platform!
     ctx.fillText(`${stats.xp} XP`, 60, 260);
     ctx.fillText(`${stats.conceptsLearned} Concepts`, 60, 320);
     ctx.fillText(`${stats.questionsAnswered} Questions`, 60, 380);
-    ctx.fillText(`${stats.streak} Day Streak`, 60, 440);
+    ctx.fillText(`${streak} Day Streak`, 60, 440);
 
     // User name
     ctx.font = '30px Arial';
@@ -145,7 +146,7 @@ Join me on DevFlow AI - The next-gen developer learning platform!
                       <div className="text-xs text-slate-400">Concepts</div>
                     </div>
                     <div className="bg-slate-800/50 rounded-lg p-3">
-                      <div className="text-2xl font-bold text-orange-400">{stats.streak}🔥</div>
+                      <div className="text-2xl font-bold text-orange-400">{streak}🔥</div>
                       <div className="text-xs text-slate-400">Day Streak</div>
                     </div>
                   </div>
