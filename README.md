@@ -58,15 +58,23 @@ An intelligent, AI-powered learning platform that combines Google's Gemini AI wi
 
 **Prerequisites:** Node.js 16+
 
+### Local Development
+
 1. **Install dependencies:**
    ```bash
    npm install
    ```
 
-2. **Set up API key:**
-   - Create `.env.local` file
-   - Add: `VITE_API_KEY=your_gemini_api_key`
-   - Get key from: https://makersuite.google.com/app/apikey
+2. **Set up API keys:**
+   - Copy `.env.example` to `.env.local`
+   - Add your API keys:
+     ```
+     VITE_API_KEY=your_gemini_api_key
+     VITE_XAI_API_KEY=your_xai_api_key (optional)
+     VITE_OPENAI_API_KEY=your_openai_api_key (optional)
+     ```
+   - Get Gemini key from: https://aistudio.google.com/apikey
+   - Get xAI key from: https://console.x.ai/
 
 3. **Run the app:**
    ```bash
@@ -77,6 +85,49 @@ An intelligent, AI-powered learning platform that combines Google's Gemini AI wi
    ```bash
    npm run build
    ```
+
+### 🌐 Deploy to Vercel (Recommended for Hackathons)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/pnikhilchandra595-bot/AWS)
+
+1. Click the "Deploy" button above
+2. Connect your GitHub account
+3. Add environment variables in Vercel dashboard:
+   - `VITE_API_KEY` = Your Gemini API key
+   - `VITE_XAI_API_KEY` = Your xAI API key (optional)
+4. Deploy!
+
+**Or manually:**
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
+
+# Add environment variables
+vercel env add VITE_API_KEY
+vercel env add VITE_XAI_API_KEY
+
+# Deploy to production
+vercel --prod
+```
+
+### 📦 For Hackathon Judges
+
+**Option 1: Use Live Demo** (Recommended)
+- Visit the deployed URL (will be provided in submission)
+- No setup required!
+
+**Option 2: Run Locally**
+1. Clone the repository
+2. Copy `.env.example` to `.env.local`
+3. Request API keys from submission contact
+4. Run `npm install && npm run dev`
+
+**Option 3: Use Provided Keys**
+- API keys will be shared securely via hackathon submission form
+- Keys are rate-limited for demo purposes only
 
 ## ⌨️ Keyboard Shortcuts
 

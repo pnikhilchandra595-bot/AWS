@@ -10,7 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-*.local
+# *.local - Commented out to allow .env.local for hackathon demo
 
 # Editor directories and files
 .vscode/*
