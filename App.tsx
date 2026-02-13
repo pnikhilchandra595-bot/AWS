@@ -500,7 +500,7 @@ export default function App() {
 
   return (
     <ErrorBoundary>
-      <div className="flex h-screen overflow-hidden bg-[var(--bg-primary)] text-[var(--text-primary)] selection:bg-pixel-green/30 font-sans">
+      <div className="flex h-screen overflow-hidden text-[var(--text-primary)] selection:bg-purple-500/30 font-sans relative" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%)' }}>
       <ToastProvider />
       <ParticleBackground />
       <AchievementNotification 
@@ -560,9 +560,9 @@ export default function App() {
             animate={{ x: 0 }}
             exit={{ x: -320 }}
             transition={{ type: 'spring', damping: 25 }}
-            className="fixed inset-y-0 left-0 z-50 w-80 bg-[#050a10] border-r border-slate-800 md:relative"
+            className="fixed inset-y-0 left-0 z-50 w-80 border-r border-purple-500/20 md:relative backdrop-blur-xl" style={{ background: 'rgba(15, 23, 42, 0.85)' }}
           >
-            <div className="flex flex-col h-full p-6 relative overflow-hidden">
+            <div className="flex flex-col h-full p-6 relative overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-900">
               <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none"></div>
 
               {/* Logo */}
@@ -574,7 +574,7 @@ export default function App() {
                   </div>
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-white tracking-tight leading-none font-pixel">DevFlow</h1>
+                  <h1 className="text-xl font-bold tracking-tight leading-none font-pixel bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent" style={{ backgroundSize: '200% auto', animation: 'gradient-text-shift 4s ease infinite' }}>DevFlow</h1>
                   <div className="flex items-center gap-1.5 mt-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
                     <p className="text-[10px] text-slate-500 font-mono tracking-widest uppercase">System Online</p>
@@ -589,47 +589,51 @@ export default function App() {
               <div className="mb-6 relative z-10">
                 <div className="grid grid-cols-4 gap-2 mb-2">
                   <motion.button
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(34, 197, 94, 0.5)' }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setShowCommandPalette(true)}
-                    className="p-3 bg-slate-900/50 hover:bg-slate-800 border border-slate-700 rounded-lg flex flex-col items-center gap-1 transition-colors"
+                    className="p-3 bg-gradient-to-br from-green-500/10 to-emerald-500/10 hover:from-green-500/20 hover:to-emerald-500/20 border border-green-500/40 rounded-lg flex flex-col items-center gap-1 transition-all duration-300"
                     title="Command Palette (Ctrl+K)"
+                    style={{ boxShadow: '0 0 10px rgba(34, 197, 94, 0.2)' }}
                   >
-                    <ICONS.Terminal size={16} className="text-pixel-green" />
-                    <span className="text-[9px] text-slate-400 font-mono">CMD</span>
+                    <ICONS.Terminal size={16} className="text-green-400" />
+                    <span className="text-[9px] text-slate-300 font-mono">CMD</span>
                   </motion.button>
                   
                   <motion.button
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(168, 85, 247, 0.5)' }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setShowCodePlayground(true)}
-                    className="p-3 bg-slate-900/50 hover:bg-slate-800 border border-slate-700 rounded-lg flex flex-col items-center gap-1 transition-colors"
+                    className="p-3 bg-gradient-to-br from-purple-500/10 to-pink-500/10 hover:from-purple-500/20 hover:to-pink-500/20 border border-purple-500/40 rounded-lg flex flex-col items-center gap-1 transition-all duration-300"
                     title="Code Playground"
+                    style={{ boxShadow: '0 0 10px rgba(168, 85, 247, 0.2)' }}
                   >
                     <ICONS.Code2 size={16} className="text-purple-400" />
-                    <span className="text-[9px] text-slate-400 font-mono">CODE</span>
+                    <span className="text-[9px] text-slate-300 font-mono">CODE</span>
                   </motion.button>
                   
                   <motion.button
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)' }}
                     whileTap={{ scale: 0.95 }}
                     onClick={toggleTheme}
-                    className="p-3 bg-slate-900/50 hover:bg-slate-800 border border-slate-700 rounded-lg flex flex-col items-center gap-1 transition-colors"
+                    className="p-3 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 hover:from-blue-500/20 hover:to-cyan-500/20 border border-blue-500/40 rounded-lg flex flex-col items-center gap-1 transition-all duration-300"
                     title="Toggle Theme"
+                    style={{ boxShadow: '0 0 10px rgba(59, 130, 246, 0.2)' }}
                   >
                     {theme === 'dark' ? <ICONS.Moon size={16} className="text-blue-400" /> : <ICONS.Sun size={16} className="text-yellow-400" />}
-                    <span className="text-[9px] text-slate-400 font-mono">THEME</span>
+                    <span className="text-[9px] text-slate-300 font-mono">THEME</span>
                   </motion.button>
 
                   <motion.button
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(251, 191, 36, 0.5)' }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setShowHelpOverlay(true)}
-                    className="p-3 bg-slate-900/50 hover:bg-slate-800 border border-slate-700 rounded-lg flex flex-col items-center gap-1 transition-colors"
+                    className="p-3 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 hover:from-yellow-500/20 hover:to-orange-500/20 border border-yellow-500/40 rounded-lg flex flex-col items-center gap-1 transition-all duration-300"
                     title="Help & Guide"
+                    style={{ boxShadow: '0 0 10px rgba(251, 191, 36, 0.2)' }}
                   >
-                    <ICONS.HelpCircle size={16} className="text-blue-400" />
-                    <span className="text-[9px] text-slate-400 font-mono">HELP</span>
+                    <ICONS.HelpCircle size={16} className="text-yellow-400" />
+                    <span className="text-[9px] text-slate-300 font-mono">HELP</span>
                   </motion.button>
                 </div>
 
@@ -833,15 +837,78 @@ export default function App() {
       </AnimatePresence>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col relative min-w-0 bg-[#020617]">
+      <main className="flex-1 flex flex-col relative min-w-0" style={{ background: 'rgba(2, 6, 23, 0.6)' }}>
         
         {/* Dynamic Header */}
         <header className="h-16 flex items-center justify-between px-6 border-b border-slate-800/60 bg-[#020617]/80 backdrop-blur-md sticky top-0 z-30">
-          <div className="flex items-center gap-2">
-            <span className="text-slate-500 text-xs font-mono uppercase">MODULE //</span>
-            <span className="text-pixel-green font-bold tracking-wider text-sm font-mono animate-typewriter overflow-hidden whitespace-nowrap border-r-2 border-pixel-green/50 pr-1">
-              {mode === AppMode.LEARN ? "NEURAL_LEARNING" : mode === AppMode.REFACTOR ? "CODE_OPTIMIZATION" : mode === AppMode.QUIZ ? "SKILL_VERIFICATION" : "GROK_AI_SEARCH"}
-            </span>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="text-slate-500 text-xs font-mono uppercase">MODULE //</span>
+              <span className="text-pixel-green font-bold tracking-wider text-sm font-mono animate-typewriter overflow-hidden whitespace-nowrap border-r-2 border-pixel-green/50 pr-1">
+                {mode === AppMode.LEARN ? "NEURAL_LEARNING" : mode === AppMode.REFACTOR ? "CODE_OPTIMIZATION" : mode === AppMode.QUIZ ? "SKILL_VERIFICATION" : "GROK_AI_SEARCH"}
+              </span>
+            </div>
+            
+            {/* Compact Mode Selector */}
+            <div className="flex items-center gap-2">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setMode(AppMode.LEARN)}
+                className={`p-2 rounded-lg transition-all duration-300 ${
+                  mode === AppMode.LEARN 
+                    ? 'bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-500/50 shadow-lg shadow-green-500/20' 
+                    : 'bg-slate-800/50 border border-slate-700 hover:border-green-500/30'
+                }`}
+                title="Learn & Explore"
+              >
+                <ICONS.BookOpen size={16} className={mode === AppMode.LEARN ? 'text-green-400' : 'text-slate-400'} />
+              </motion.button>
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setMode(AppMode.REFACTOR)}
+                className={`p-2 rounded-lg transition-all duration-300 ${
+                  mode === AppMode.REFACTOR 
+                    ? 'bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/50 shadow-lg shadow-purple-500/20' 
+                    : 'bg-slate-800/50 border border-slate-700 hover:border-purple-500/30'
+                }`}
+                title="Refactor Engine"
+              >
+                <ICONS.Code2 size={16} className={mode === AppMode.REFACTOR ? 'text-purple-400' : 'text-slate-400'} />
+              </motion.button>
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setMode(AppMode.QUIZ)}
+                className={`p-2 rounded-lg transition-all duration-300 ${
+                  mode === AppMode.QUIZ 
+                    ? 'bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-500/50 shadow-lg shadow-blue-500/20' 
+                    : 'bg-slate-800/50 border border-slate-700 hover:border-blue-500/30'
+                }`}
+                title="Skill Assessment"
+              >
+                <ICONS.Zap size={16} className={mode === AppMode.QUIZ ? 'text-blue-400' : 'text-slate-400'} />
+              </motion.button>
+
+              {isXAIConfigured() && (
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setMode(AppMode.GROK)}
+                  className={`p-2 rounded-lg transition-all duration-300 ${
+                    mode === AppMode.GROK 
+                      ? 'bg-gradient-to-br from-orange-500/20 to-red-500/20 border border-orange-500/50 shadow-lg shadow-orange-500/20' 
+                      : 'bg-slate-800/50 border border-slate-700 hover:border-orange-500/30'
+                  }`}
+                  title="Grok AI"
+                >
+                  <ICONS.Globe size={16} className={mode === AppMode.GROK ? 'text-orange-400' : 'text-slate-400'} />
+                </motion.button>
+              )}
+            </div>
           </div>
           
           {/* Context Controls */}
