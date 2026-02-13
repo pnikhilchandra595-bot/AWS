@@ -20,6 +20,10 @@ import VoiceInput from './components/VoiceInput';
 import HelpOverlay from './components/HelpOverlay';
 import ErrorBoundary from './components/ErrorBoundary';
 import OnboardingTutorial from './components/OnboardingTutorial';
+import AIComparisonMode from './components/AIComparisonMode';
+import AnalyticsDashboard from './components/AnalyticsDashboard';
+import LearningPath from './components/LearningPath';
+import CodeReviewMode from './components/CodeReviewMode';
 import { useTheme } from './hooks/useTheme';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useStreak } from './hooks/useStreak';
@@ -76,6 +80,12 @@ export default function App() {
   const [bookmarkedMessages, setBookmarkedMessages] = useState<string[]>([]);
   const [currentAchievement, setCurrentAchievement] = useState<Achievement | null>(null);
 
+  // Ultimate Features State
+  const [showAIComparison, setShowAIComparison] = useState(false);
+  const [showAnalytics, setShowAnalytics] = useState(false);
+  const [showLearningPath, setShowLearningPath] = useState(false);
+  const [showCodeReview, setShowCodeReview] = useState(false);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -94,11 +104,19 @@ export default function App() {
     'ctrl+/': () => setShowMessageSearch(true),
     'ctrl+e': () => handleExportChat(),
     'ctrl+shift+t': () => toggleTheme(),
+    'ctrl+shift+c': () => setShowAIComparison(true),
+    'ctrl+shift+a': () => setShowAnalytics(true),
+    'ctrl+shift+l': () => setShowLearningPath(true),
+    'ctrl+shift+r': () => setShowCodeReview(true),
     'escape': () => {
       setShowCommandPalette(false);
       setShowMessageSearch(false);
       setShowCodePlayground(false);
       setShowHelpOverlay(false);
+      setShowAIComparison(false);
+      setShowAnalytics(false);
+      setShowLearningPath(false);
+      setShowCodeReview(false);
     }
   });
 
@@ -259,6 +277,57 @@ export default function App() {
     toast.success(
       bookmarkedMessages.includes(messageId) ? 'Bookmark removed' : 'Message bookmarked'
     );
+  };
+
+  // AI Comparison Handler
+  const handleAIComparison = async (query: string): Promise<{ gemini: string; grok: string }> => {
+    let geminiResponse = '';
+    let grokResponse = '';
+
+    // Get Gemini response
+    await streamChatResponse([], query, (chunk) => {
+      geminiResponse += chunk;
+    });
+
+    // Get Grok response
+    await streamGrokResponse([{ role: 'user', content: query }], (chunk) => {
+      grokResponse += chunk;
+    }, true);
+
+    return { gemini: geminiResponse, grok: grokResponse };
+  };
+
+  // Code Review Handler
+  const handleCodeReview = async (code: string, language: string) => {
+    // Mock implementation - in production, call AI for real review
+    const issues = [
+      {
+        type: 'security' as const,
+        severity: 'high' as const,
+        line: 5,
+        message: 'Potential SQL injection vulnerability',
+        suggestion: 'Use parameterized queries instead of string concatenation'
+      },
+      {
+        type: 'performance' as const,
+        severity: 'medium' as const,
+        line: 12,
+        message: 'Inefficient loop detected',
+        suggestion: 'Consider using Array.map() for better performance'
+      },
+      {
+        type: 'style' as const,
+        severity: 'low' as const,
+        line: 8,
+        message: 'Inconsistent naming convention',
+        suggestion: 'Use camelCase for variable names'
+      }
+    ];
+
+    // Simulate AI processing
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    return issues;
   };
 
   // Scroll to message
@@ -485,7 +554,7 @@ export default function App() {
 
               {/* Quick Actions */}
               <div className="mb-6 relative z-10">
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-4 gap-2 mb-2">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -528,6 +597,53 @@ export default function App() {
                   >
                     <ICONS.HelpCircle size={16} className="text-blue-400" />
                     <span className="text-[9px] text-slate-400 font-mono">HELP</span>
+                  </motion.button>
+                </div>
+
+                {/* NEW Ultimate Features Row */}
+                <div className="grid grid-cols-4 gap-2">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setShowAIComparison(true)}
+                    className="p-3 bg-gradient-to-br from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 border border-blue-500/30 rounded-lg flex flex-col items-center gap-1 transition-colors"
+                    title="AI Battle (Ctrl+Shift+C)"
+                  >
+                    <ICONS.Zap size={16} className="text-blue-400" />
+                    <span className="text-[9px] text-slate-400 font-mono">BATTLE</span>
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setShowAnalytics(true)}
+                    className="p-3 bg-gradient-to-br from-pixel-green/10 to-emerald-500/10 hover:from-pixel-green/20 hover:to-emerald-500/20 border border-pixel-green/30 rounded-lg flex flex-col items-center gap-1 transition-colors"
+                    title="Analytics (Ctrl+Shift+A)"
+                  >
+                    <ICONS.BarChart2 size={16} className="text-pixel-green" />
+                    <span className="text-[9px] text-slate-400 font-mono">STATS</span>
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setShowLearningPath(true)}
+                    className="p-3 bg-gradient-to-br from-orange-500/10 to-red-500/10 hover:from-orange-500/20 hover:to-red-500/20 border border-orange-500/30 rounded-lg flex flex-col items-center gap-1 transition-colors"
+                    title="Learning Path (Ctrl+Shift+L)"
+                  >
+                    <ICONS.Target size={16} className="text-orange-400" />
+                    <span className="text-[9px] text-slate-400 font-mono">PATH</span>
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setShowCodeReview(true)}
+                    className="p-3 bg-gradient-to-br from-purple-500/10 to-pink-500/10 hover:from-purple-500/20 hover:to-pink-500/20 border border-purple-500/30 rounded-lg flex flex-col items-center gap-1 transition-colors"
+                    title="Code Review (Ctrl+Shift+R)"
+                  >
+                    <ICONS.Shield size={16} className="text-purple-400" />
+                    <span className="text-[9px] text-slate-400 font-mono">REVIEW</span>
                   </motion.button>
                 </div>
 
@@ -905,6 +1021,32 @@ export default function App() {
             }} 
           />
         )}
+
+        {/* NEW Ultimate Features Modals */}
+        <AIComparisonMode
+          isOpen={showAIComparison}
+          onClose={() => setShowAIComparison(false)}
+          onCompare={handleAIComparison}
+        />
+
+        <AnalyticsDashboard
+          isOpen={showAnalytics}
+          onClose={() => setShowAnalytics(false)}
+          stats={user?.stats || { xp: 0, level: 1, conceptsLearned: 0, questionsAnswered: 0, correctAnswers: 0, refactorsPerformed: 0 }}
+          streak={streak}
+        />
+
+        <LearningPath
+          isOpen={showLearningPath}
+          onClose={() => setShowLearningPath(false)}
+          userLevel={user?.stats.level || 1}
+        />
+
+        <CodeReviewMode
+          isOpen={showCodeReview}
+          onClose={() => setShowCodeReview(false)}
+          onReview={handleCodeReview}
+        />
 
       </main>
 
