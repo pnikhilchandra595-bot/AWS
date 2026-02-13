@@ -962,9 +962,9 @@ export default function App() {
               )}
 
               {/* Stats & User */}
+              {/* Stats & User */}
               <div className="mt-8 space-y-4 animate-fade-in-up delay-200 relative z-10">
                 {theme === 'naruto' && (
-                  /* Naruto Theme Header */
                   <div className="mb-4 p-4 bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-500/50 rounded-lg relative overflow-hidden animate-chakra-flow">
                     <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMiIgZmlsbD0icmdiYSgyNTUsMTY1LDAsMC4xKSIvPjwvc3ZnPg==')] opacity-30"></div>
                     <div className="relative z-10 flex items-center justify-between">
