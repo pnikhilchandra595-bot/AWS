@@ -37,7 +37,6 @@ import AppLoadingSkeleton from './components/AppLoadingSkeleton';
 import ConfirmDialog from './components/ConfirmDialog';
 import QuickStatsBadge from './components/QuickStatsBadge';
 import FloatingActionButton from './components/FloatingActionButton';
-import AnimeRankDisplay from './components/AnimeRankDisplay';
 import JutsuUnlocked from './components/JutsuUnlocked';
 import { useTheme } from './hooks/useTheme';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
@@ -964,27 +963,24 @@ export default function App() {
 
               {/* Stats & User */}
               <div className="mt-8 space-y-4 animate-fade-in-up delay-200 relative z-10">
-                {theme === 'naruto' ? (
-                  <>
-                    {/* Naruto Theme Header */}
-                    <div className="mb-4 p-4 bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-500/50 rounded-lg relative overflow-hidden animate-chakra-flow">
-                      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMiIgZmlsbD0icmdiYSgyNTUsMTY1LDAsMC4xKSIvPjwvc3ZnPg==')] opacity-30"></div>
-                      <div className="relative z-10 flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="text-4xl animate-jutsu-seal">🍥</div>
-                          <div>
-                            <div className="text-xs text-orange-300 font-bold uppercase tracking-wider">Ninja Way</div>
-                            <div className="text-lg font-bold text-white">Believe It!</div>
-                          </div>
+                {theme === 'naruto' && (
+                  /* Naruto Theme Header */
+                  <div className="mb-4 p-4 bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-500/50 rounded-lg relative overflow-hidden animate-chakra-flow">
+                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMiIgZmlsbD0icmdiYSgyNTUsMTY1LDAsMC4xKSIvPjwvc3ZnPg==')] opacity-30"></div>
+                    <div className="relative z-10 flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="text-4xl animate-jutsu-seal">🍥</div>
+                        <div>
+                          <div className="text-xs text-orange-300 font-bold uppercase tracking-wider">Ninja Way</div>
+                          <div className="text-lg font-bold text-white">Believe It!</div>
                         </div>
-                        <div className="text-3xl animate-float">🔥</div>
                       </div>
+                      <div className="text-3xl animate-float">🔥</div>
                     </div>
-                    <AnimeRankDisplay stats={user.stats} streak={streak.currentStreak} />
-                  </>
-                ) : (
-                  <StatsChart stats={user.stats} />
+                  </div>
                 )}
+                
+                <StatsChart stats={user.stats} />
                 
                 <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
                   <div className="flex items-center gap-3">
