@@ -34,6 +34,9 @@ import type { Personality } from './components/AIPersonalitySelector';
 import KeyboardShortcutsGuide from './components/KeyboardShortcutsGuide';
 import ShareProgress from './components/ShareProgress';
 import AppLoadingSkeleton from './components/AppLoadingSkeleton';
+import ConfirmDialog from './components/ConfirmDialog';
+import QuickStatsBadge from './components/QuickStatsBadge';
+import FloatingActionButton from './components/FloatingActionButton';
 import { useTheme } from './hooks/useTheme';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useStreak } from './hooks/useStreak';
@@ -107,6 +110,7 @@ export default function App() {
   const [showKeyboardGuide, setShowKeyboardGuide] = useState(false);
   const [showShareProgress, setShowShareProgress] = useState(false);
   const [isAppLoading, setIsAppLoading] = useState(true);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -305,10 +309,12 @@ export default function App() {
 
   // Clear Chat
   const handleClearChat = () => {
-    if (confirm('Are you sure you want to clear all messages?')) {
-      setMessages([]);
-      toast.success('Chat cleared');
-    }
+    setShowClearConfirm(true);
+  };
+
+  const confirmClearChat = () => {
+    setMessages([]);
+    toast.success('Chat cleared successfully');
   };
 
   // Bookmark Message
@@ -1008,6 +1014,9 @@ export default function App() {
           
           {/* Context Controls */}
           <div className="flex items-center gap-3 animate-fade-in">
+             {/* Quick Stats Badge */}
+             {user && <QuickStatsBadge stats={user.stats} />}
+
              <motion.button
                whileHover={{ scale: 1.05 }}
                whileTap={{ scale: 0.95 }}
@@ -1329,6 +1338,26 @@ export default function App() {
             feature={comingSoonFeatures.find(f => f.id === selectedComingSoon)!}
           />
         )}
+
+        {/* Confirm Dialog */}
+        <ConfirmDialog
+          isOpen={showClearConfirm}
+          title="Clear Chat History"
+          message="Are you sure you want to clear all messages? This action cannot be undone."
+          confirmText="Clear All"
+          cancelText="Cancel"
+          variant="danger"
+          onConfirm={confirmClearChat}
+          onCancel={() => setShowClearConfirm(false)}
+        />
+
+        {/* Floating Action Button */}
+        <FloatingActionButton
+          onOpenCommandPalette={() => setShowCommandPalette(true)}
+          onOpenCodePlayground={() => setShowCodePlayground(true)}
+          onOpenHelp={() => setShowHelpOverlay(true)}
+          onStartQuiz={() => setMode(AppMode.QUIZ)}
+        />
 
       </main>
 
