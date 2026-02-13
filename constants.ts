@@ -49,7 +49,10 @@ import {
   Target,
   TrendingUp,
   Mic,
-  HelpCircle
+  HelpCircle,
+  AlertTriangle,
+  AlertCircle,
+  Info
 } from 'lucide-react';
 
 export const ICONS = {
@@ -102,7 +105,10 @@ export const ICONS = {
   Target,
   TrendingUp,
   Mic,
-  HelpCircle
+  HelpCircle,
+  AlertTriangle,
+  AlertCircle,
+  Info
 };
 
 export const SAMPLE_PROMPTS = [
