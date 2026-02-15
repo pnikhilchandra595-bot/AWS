@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Presentation files (not for repo)
+PRESENTATION_SUMMARY.md
+WIREFRAMES.txt
+IDEA_BRIEF.md
